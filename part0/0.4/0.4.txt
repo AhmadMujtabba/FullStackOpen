@@ -1,0 +1,14 @@
+    Browser->>+Server:GET https://studies.cs.helsinki.fi/exampleapp/notes
+    Server-->>-Browser: HTML
+    Browser->>+Server:GET CSS?
+    Server-->>-Browser: CSS
+    Browser->>+Server:GET JS?
+    Server-->>-Browser: JS
+    Browser->>+Server:User Submit Note
+    Server-->>-Browser: Server Respond 302 code
+    Browser->>+Server:GET https://studies.cs.helsinki.fi/exampleapp/notes
+    Server-->>-Browser: HTML
+    Browser->>+Server:GET CSS?
+    Server-->>-Browser: CSS
+    Browser->>+Server:GET JS?
+    Server-->>-Browser: JS
