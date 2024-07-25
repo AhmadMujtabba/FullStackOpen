@@ -1,0 +1,4 @@
+    Browser->>+Server:GET https://studies.cs.helsinki.fi/exampleapp/spa
+    Server-->>-Browser: Brower will get all necessary files one by one but does not reload again and again
+    Browser->>+Server:POST Note
+    Server-->>-Browser:If entity updated sucessfuly the server will give green signal.And update occure only in changed element without reloading.
