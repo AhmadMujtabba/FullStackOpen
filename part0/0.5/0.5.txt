@@ -1,0 +1,5 @@
+    Browser->>+Server:GET https://studies.cs.helsinki.fi/exampleapp/spa
+    Server-->>-Browser: Brower will get all necessary files one by one but does not reload again and again
+    Server->>+Browser:When change occur the server send pull request
+    Browser->>+Server:GET changed element
+    Server-->>-Browser: Received updated element
