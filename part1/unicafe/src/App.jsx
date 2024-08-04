@@ -1,6 +1,18 @@
 import { useState } from 'react'
 
 const Button = ({ text, event }) => <button onClick={event}>{text}</button>
+const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,percentage})=>{
+    return(
+      <>
+      <h3>Good : {goodpoint}</h3>
+      <h3>Neutral : {neutralpoint}</h3>
+      <h3>Bad : {badpoint}</h3>
+      <h4>Total : {totalpoint}</h4>
+      <h4>Average : {averagepoint}</h4>
+      <h4>Percentage : {percentage} %</h4>
+      </>
+    )
+}
 
 function App() {
   const [good, setGood] = useState(0)
@@ -55,12 +67,7 @@ function App() {
       <Button text={'Neutral'} event={neutralclickhandler} />
       <Button text={'Bad'} event={badclickhandler} />
       <h2>Statistics</h2>
-      <h3>Good : {good}</h3>
-      <h3>Neutral : {neutral}</h3>
-      <h3>Bad : {bad}</h3>
-      <h4>Total : {point}</h4>
-      <h4>Average : {average}</h4>
-      <h4>Percentage : {percent}</h4>
+      <Statistics goodpoint={good} neutralpoint={neutral} badpoint={bad} totalpoint={point} averagepoint={average} percentage={percent}/>
     </>
   )
 }
