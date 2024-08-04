@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 const Button = ({ text, event }) => <button onClick={event}>{text}</button>
 const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,percentage})=>{
+    if(goodpoint!=0 || neutralpoint!=0 || badpoint!=0)
+    {
     return(
       <>
       <h3>Good : {goodpoint}</h3>
@@ -12,6 +14,13 @@ const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,perce
       <h4>Percentage : {percentage} %</h4>
       </>
     )
+  }
+  else
+  {
+    return(
+    <h3>No Feedback Given</h3>
+    )
+  }
 }
 
 function App() {
