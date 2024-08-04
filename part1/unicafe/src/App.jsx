@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Button = ({ text, event }) => <button onClick={event}>{text}</button>
-const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,percentage})=>{
+/*const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,percentage})=>{
     if(goodpoint!=0 || neutralpoint!=0 || badpoint!=0)
     {
     return(
@@ -20,6 +20,16 @@ const Statistics=({goodpoint,neutralpoint,badpoint,averagepoint,totalpoint,perce
     return(
     <h3>No Feedback Given</h3>
     )
+  }
+}*/
+const Statisticline = ({ text, value }) => {
+  if(value<=0)
+  {
+    return(<h3>No feedback Given</h3>)
+  }
+  else
+  {
+    return(<h3>{text} {value}</h3>)
   }
 }
 
@@ -51,7 +61,7 @@ function App() {
     const ave = ((good * 1) + (neutralupdate * 0) + (bad * -1)) / (pointref + 1)
     setAverage(ave)
     //percent
-    let goodref=good
+    let goodref = good
     let goodper = (goodref * 100) / (pointref + 1)
     setPercent(goodper)
 
@@ -64,11 +74,10 @@ function App() {
     const ave = ((good * 1) + (neutral * 0) + (badupdate * -1)) / (pointref + 1)
     setAverage(ave)
     //percent
-    let goodref=good
+    let goodref = good
     let goodper = (goodref * 100) / (pointref + 1)
     setPercent(goodper)
   }
-
   return (
     <>
       <h1>Give Feedback</h1>
@@ -76,7 +85,12 @@ function App() {
       <Button text={'Neutral'} event={neutralclickhandler} />
       <Button text={'Bad'} event={badclickhandler} />
       <h2>Statistics</h2>
-      <Statistics goodpoint={good} neutralpoint={neutral} badpoint={bad} totalpoint={point} averagepoint={average} percentage={percent}/>
+      <Statisticline text={'Good'} value={good}/>
+      <Statisticline text={'Neutral'} value={neutral}/>  
+      <Statisticline text={'Bad'} value={bad}/>
+      <Statisticline text={'Total'} value={point}/>  
+      <Statisticline text={'Average'} value={average}/>  
+      <Statisticline text={'Positive'} value={percent}/>    
     </>
   )
 }
