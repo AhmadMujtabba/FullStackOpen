@@ -23,14 +23,16 @@ const Button = ({ text, event }) => <button onClick={event}>{text}</button>
   }
 }*/
 const Statisticline = ({ text, value }) => {
+  
   if(value<=0)
   {
     return(<h3>No feedback Given</h3>)
   }
   else
   {
-    return(<h3>{text} {value}</h3>)
+    return(<table><tbody><tr><td style={{width:200}}>{text}</td><td>{value}</td></tr></tbody></table>)
   }
+  
 }
 
 function App() {
