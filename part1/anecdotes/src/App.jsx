@@ -3,6 +3,8 @@ import { useState } from 'react'
 function App() {
   const [selected, setSelected] = useState(0)
   const [point,setPoint]=useState([0,0,0,0,0])
+  const [highest,setHighest]=useState(0)
+  const [maxindex,setMaxindex]=useState(0)
   const quotes = 
   [
     'Adding manpower to a late software project makes it later!',
@@ -21,21 +23,25 @@ function App() {
     vote[selected]+=1
     setPoint(vote)
   }
+  const maxvote=()=>{
+    let updatedvote=[...point]
+    let max=Math.max(...updatedvote)
+    setHighest(max)
+    let index=updatedvote.indexOf(max)
+    setMaxindex(index)
+  }
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{quotes[selected]}</p>
       <button onClick={randomnumgen}>
         Next Anecdote
       </button>
-      <button onClick={votecounter}>
+      <button onClick={()=>{votecounter();maxvote();}}>
         Vote
       </button>
-      <p>0 : {point[0]}</p>
-      <p>1 : {point[1]}</p>
-      <p>2 : {point[2]}</p>
-      <p>3 : {point[3]}</p>
-      <p>4 : {point[4]}</p>
-
+      <h2>Anecdote with most vote</h2>
+      <p>{quotes[maxindex]}</p>
     </div>
   )
 }
