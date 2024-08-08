@@ -1,13 +1,9 @@
 const Total = ({ sum }) => {
-const arr=sum.map(n=>n.exercises)
- let s=0
- for(let i=0;i<arr.length;i++)
- {
-    s=arr[i]+s
- }
- return(
-    <b><p>Total exercises {s}</p></b>
- )
+const total=sum.map(n=>n.exercises)
+const x=total.reduce((s,curr)=>{
+s=s+curr
+return s
+},0)
+return <b><p>Total exercises {x}</p></b>
 }
-
 export default Total
