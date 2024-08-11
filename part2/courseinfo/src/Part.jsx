@@ -1,5 +1,9 @@
 const Part = ({ partsreftopart }) =>
-  <p>
-    {partsreftopart.name} {partsreftopart.exercises}
-  </p>
+{
+return(
+partsreftopart.map((data,i)=>{
+  return <p key={i}>{data.name}{data.exercises}</p>
+})
+)
+}
 export default Part
