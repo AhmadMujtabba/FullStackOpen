@@ -1,5 +1,38 @@
 import { useState } from 'react'
+//----------------------------------------
+const Filter = ({ handlesearchname }) => {
 
+  return (
+    <div>
+      Search <input onChange={handlesearchname} />
+    </div>
+  )
+}
+
+const PersonForm = ({ handlenewname, handlenewnumber, addperson, newname, newnumber }) => {
+
+  return (
+    <form>
+      <div>
+        Name: <input value={newname} onChange={handlenewname} /><br /><br />
+        Number: <input value={newnumber} onChange={handlenewnumber} />
+      </div><br /><br />
+      <div>
+        <button type="submit" onClick={addperson}>Add</button>
+      </div>
+    </form>
+  )
+}
+const Persons = ({ searched }) => {
+
+  return (
+    <div>
+      {searched.map(names => <p key={names.name}>{names.name}{names.number}</p>)}
+    </div>
+  )
+}
+
+//----------------------------------------
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-1234567', id: 1 },
@@ -33,7 +66,6 @@ const App = () => {
     else {
       addpersonfun()
     }
-
   }
   ////
   const addpersonfun = () => {
@@ -41,7 +73,7 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    const newperson=persons.concat(personObj)
+    const newperson = persons.concat(personObj)
     setPersons(newperson)
     setSearchedNames(newperson)
     setNewName('')
@@ -51,19 +83,16 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      Search <input onChange={handlesearchname} />
-      <form>
-        <div>
-          <h2>Add New</h2>
-          Name: <input value={newName} onChange={handlenewname} /><br /><br />
-          Number: <input value={newNumber} onChange={handlenewnumber} />
-        </div><br /><br />
-        <div>
-          <button type="submit" onClick={addPerson}>Add</button>
-        </div>
-      </form>
+      <Filter handlesearchname={handlesearchname} />
+      <h2>Add New</h2>
+      <PersonForm 
+      handlenewname={handlenewname} 
+      newname={newName} 
+      newnumber={newNumber} 
+      handlenewnumber={handlenewnumber} 
+      addperson={addPerson} />
       <h2>Numbers</h2>
-      {searched.map(names => <p key={names.name}>{names.name}{names.number}</p>)}
+      <Persons searched={searched} />
     </div>
   )
 }
