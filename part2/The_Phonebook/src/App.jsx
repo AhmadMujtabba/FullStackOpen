@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import phonebookService from './services/phonebook'
 //----------------------------------------
 const Filter = ({ handlesearchname }) => {
 
@@ -41,13 +41,12 @@ const App = () => {
   const [searched, setSearchedNames] = useState(persons)
   //Getting data from server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        const data = response.data
-        setPersons(data)
-        setSearchedNames(data)
-      })
+    phonebookService
+    .getdata()
+    .then(res=>{
+      setPersons(res)
+      setSearchedNames(res)
+    })
   }, [])
   //--------------------------
   const handlenewname = (event) => {
@@ -74,10 +73,10 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios
-        .post('http://localhost:3001/persons', personObj)
+      phonebookService
+        .createentry(personObj)
         .then(response => {
-          const newperson = persons.concat(personObj)
+          const newperson = persons.concat(response)
           setPersons(newperson)
           setSearchedNames(newperson)
           setNewName('')
