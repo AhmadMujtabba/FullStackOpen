@@ -40,11 +40,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState()
   const [searched, setSearchedNames] = useState(persons)
   //Getting data from server
-  useEffect(()=>{
+  useEffect(() => {
     axios
-    .get('http://localhost:3001/persons')
-    .then(response=>console.log(response.data))
-  },[])
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        const data = response.data
+        setPersons(data)
+        setSearchedNames(data)
+      })
+  }, [])
   //--------------------------
   const handlenewname = (event) => {
     setNewName(event.target.value)
@@ -66,33 +70,33 @@ const App = () => {
       window.alert(newName + ' already exist in phonebook')
     }
     else {
-      addpersonfun()
+      const personObj = {
+        name: newName,
+        number: newNumber
+      }
+      axios
+        .post('http://localhost:3001/persons', personObj)
+        .then(response => {
+          const newperson = persons.concat(personObj)
+          setPersons(newperson)
+          setSearchedNames(newperson)
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
-  ////
-  const addpersonfun = () => {
-    const personObj = {
-      name: newName,
-      number: newNumber
-    }
-    const newperson = persons.concat(personObj)
-    setPersons(newperson)
-    setSearchedNames(newperson)
-    setNewName('')
-    setNewNumber('')
-  }
-  ////
+
   return (
     <div>
       <h1>Phonebook</h1>
       <Filter handlesearchname={handlesearchname} />
       <h2>Add New</h2>
-      <PersonForm 
-      handlenewname={handlenewname} 
-      newname={newName} 
-      newnumber={newNumber} 
-      handlenewnumber={handlenewnumber} 
-      addperson={addPerson} />
+      <PersonForm
+        handlenewname={handlenewname}
+        newname={newName}
+        newnumber={newNumber}
+        handlenewnumber={handlenewnumber}
+        addperson={addPerson} />
       <h2>Numbers</h2>
       <Persons searched={searched} />
     </div>
