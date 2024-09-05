@@ -11,6 +11,16 @@ const getdata=()=>{
     return request.then((response=>response.data))
 }
 
+const deleteentry=(id)=>{
+    const request=axios.delete(`${baseurl}/${id}`)
+    return request.then(response=>response.data)
+}
+
+const updateentry=(id,changedentry)=>{
+    const request=axios.put(`${baseurl}/${id}`,changedentry)
+    return request.then(response=>response.data)
+}
+
 export default{
-    createentry,getdata
+    createentry,getdata,deleteentry,updateentry
 }

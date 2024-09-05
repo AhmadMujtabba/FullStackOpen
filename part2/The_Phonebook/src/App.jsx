@@ -24,12 +24,17 @@ const PersonForm = ({ handlenewname, handlenewnumber, addperson, newname, newnum
     </form>
   )
 }
-const Persons = ({ searched }) => {
+const Persons = ({ searched, deleteperson }) => {
 
   return (
-    <div>
-      {searched.map(names => <p key={names.name}>{names.name}{names.number}</p>)}
-    </div>
+
+    searched.map(names =>
+      <div key={names.id}>
+        <p key={names.name}>{names.name}{names.number}</p>
+        <button key={names.id} onClick={() => deleteperson(names.id, names.name)}>Delete</button>
+      </div>
+    )
+
   )
 }
 
@@ -42,11 +47,11 @@ const App = () => {
   //Getting data from server
   useEffect(() => {
     phonebookService
-    .getdata()
-    .then(res=>{
-      setPersons(res)
-      setSearchedNames(res)
-    })
+      .getdata()
+      .then(res => {
+        setPersons(res)
+        setSearchedNames(res)
+      })
   }, [])
   //--------------------------
   const handlenewname = (event) => {
@@ -63,10 +68,27 @@ const App = () => {
     setSearchedNames(searchednames);
   }
 
+
+
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.some(name => name.name === newName)) {
+    if (persons.some(name => name.name === newName && name.number === newNumber)) {
       window.alert(newName + ' already exist in phonebook')
+    }
+    else if (persons.some(name => name.name === newName && name.number !== newNumber)) {
+      const data = persons.find(n => n.name === newName && n.number !== newNumber)
+      const id = data.id
+      const changednumber = { ...data, number: newNumber }
+      if (window.confirm(`${newName} already existed , Do you want to replace old number with new one ?`)) {
+        phonebookService
+          .updateentry(id, changednumber)
+          .then(res => {
+            setPersons(persons.concat(res))
+            setSearchedNames(persons.concat(res))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     }
     else {
       const personObj = {
@@ -85,6 +107,18 @@ const App = () => {
     }
   }
 
+  const deleteperson = (idfrompersoncom, namefrompersoncom) => {
+    if (window.confirm(`Delete ${namefrompersoncom} ?`)) {
+      phonebookService
+        .deleteentry(idfrompersoncom)
+        .then((res) => {
+          const updateddata = persons.filter(n => n.id != res.id)
+          setPersons(updateddata)
+          setSearchedNames(updateddata)
+        })
+    }
+  }
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -97,7 +131,7 @@ const App = () => {
         handlenewnumber={handlenewnumber}
         addperson={addPerson} />
       <h2>Numbers</h2>
-      <Persons searched={searched} />
+      <Persons searched={searched} deleteperson={deleteperson} />
     </div>
   )
 }
