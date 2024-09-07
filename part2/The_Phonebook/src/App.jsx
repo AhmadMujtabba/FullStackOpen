@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import phonebookService from './services/phonebook'
+import Notification from './commponent/Notification'
 //----------------------------------------
 const Filter = ({ handlesearchname }) => {
 
@@ -44,6 +45,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState()
   const [searched, setSearchedNames] = useState(persons)
+  const [newmessage,setNewmessage]=useState(null)
+  const [messagestatus,setMessagestatus]=useState(null)
   //Getting data from server
   useEffect(() => {
     phonebookService
@@ -87,6 +90,16 @@ const App = () => {
             setSearchedNames(persons.concat(res))
             setNewName('')
             setNewNumber('')
+            setMessagestatus('success')
+            setNewmessage(`${res.name} number updated successfully`)
+            setTimeout(()=>setNewmessage(null),5000)
+            setTimeout(()=>setMessagestatus(null),5000)
+          })
+          .catch(()=>{
+            setMessagestatus('error')
+            setNewmessage(`${newName} already deleted from the server`)
+            setTimeout(()=>setMessagestatus(null),5000)
+            setTimeout(()=>setNewmessage(null),5000)
           })
       }
     }
@@ -103,6 +116,10 @@ const App = () => {
           setSearchedNames(newperson)
           setNewName('')
           setNewNumber('')
+          setNewmessage(`${response.name} added Successfully`)
+          setMessagestatus('success')
+          setTimeout(()=>setNewmessage(null),5000)
+          setTimeout(()=>setMessagestatus(null),5000)
         })
     }
   }
@@ -115,6 +132,10 @@ const App = () => {
           const updateddata = persons.filter(n => n.id != res.id)
           setPersons(updateddata)
           setSearchedNames(updateddata)
+          setNewmessage(`${res.name} deleted !`)
+          setMessagestatus('success')
+          setTimeout(()=>setNewmessage(null),5000)
+          setTimeout(()=>setMessagestatus(null),5000)
         })
     }
   }
@@ -122,6 +143,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={newmessage} status={messagestatus}/>
       <Filter handlesearchname={handlesearchname} />
       <h2>Add New</h2>
       <PersonForm
