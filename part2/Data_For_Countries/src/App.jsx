@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import dataextractor from './services/dataforcountries'
 
-const List = ({ countriestoshow, update, countrydata,search }) => {
+const List = ({ countriestoshow, update, countrydata,search,handlesearch }) => {
 
   const arraylength = countriestoshow.length
   if (arraylength > 10 && search!=='') {
@@ -10,7 +10,7 @@ const List = ({ countriestoshow, update, countrydata,search }) => {
   else if (arraylength <= 10 && arraylength > 1) {
     return (
       <ul>
-        {countriestoshow.map(coun => <li key={coun}>{coun}</li>)}
+        {countriestoshow.map(coun => <li key={coun}>{coun}<button onClick={()=>handlesearch(coun)}>Show</button></li>)}
       </ul>
     )
   }
@@ -21,10 +21,6 @@ const List = ({ countriestoshow, update, countrydata,search }) => {
       .then(res => {
         update(res)
       })
-      .catch()
-      {
-        window.alert('Error')
-      }
     if (countrydata !== null) {
       const language = Object.values(countrydata.languages)
       return (
@@ -61,12 +57,15 @@ function App() {
   const handlesearch = (event) => {
     const searched = event.target.value
     setSearch(event.target.value)
-    const filtereddata = countries.filter(data => data.toLowerCase().includes(searched.toLowerCase()))
+    const filtereddata = countries.filter(data => data.toLowerCase().includes(search.toLowerCase()))
     setCountriestoshow(filtereddata)
   }
 
   const updatecountrydatastate = (res) => {
     setCountrydata(res)
+  }
+  const handlesearchusingbtn=(name)=>{
+    setSearch(name)
   }
 
   return (
@@ -76,7 +75,8 @@ function App() {
         <List countriestoshow={countriestoshow} 
               update={updatecountrydatastate} 
               countrydata={countrydata}  
-              search={search}/>
+              search={search}
+              handlesearch={handlesearchusingbtn}/>
       </form>
     </div>
   )
