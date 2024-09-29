@@ -18,14 +18,21 @@ const data=[
       "number": "12-43-234345"
     },
     { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
+        "id": "4",
+        "name": "Mary Poppendieck", 
+        "number": "39-23-6423122"
     }
 ]
-
+app.use(express.json())
 app.get('/api/persons',(request,response)=>{
     response.json(data)
+})
+
+app.get('/info',(request,response)=>{
+    const date=Date()
+    const noofentries=String(data.length)
+    const restosend=`<p>Phonebook has info for ${noofentries} people</p><p>${date}</p>`
+    response.send(restosend)
 })
 
 const PORT=3001
