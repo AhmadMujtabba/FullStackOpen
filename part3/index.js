@@ -35,5 +35,17 @@ app.get('/info',(request,response)=>{
     response.send(restosend)
 })
 
+app.get('/api/persons/:id',(request,response)=>{
+  const id=request.params.id
+  const person=data.find(n=>n.id===id)
+  if(!person)
+  {
+    response.status(404).send('Not Found')
+  }
+  else{
+  response.send(person)
+  }
+})
+
 const PORT=3001
 app.listen(PORT,()=>console.log(`Server started at port ${PORT}`))
