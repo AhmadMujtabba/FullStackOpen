@@ -47,5 +47,11 @@ app.get('/api/persons/:id',(request,response)=>{
   }
 })
 
+app.delete('/api/persons/:id',(request,response)=>{
+  const id=request.params.id
+  const persons=data.filter(n=>n.id!==id)
+  response.send(204).end()
+})
+
 const PORT=3001
 app.listen(PORT,()=>console.log(`Server started at port ${PORT}`))
