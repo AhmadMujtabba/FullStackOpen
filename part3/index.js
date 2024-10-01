@@ -1,8 +1,11 @@
 const express = require('express')
-const morgan=require('morgan')
+const morgan = require('morgan')
 const app = express()
 app.use(express.json())
-app.use(morgan('tiny'))
+morgan.token('data', (req, res) => {
+  return JSON.stringify(req.body)
+})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 const data = [
   {
     "id": "1",
@@ -68,8 +71,7 @@ app.post('/api/persons', (request, response) => {
   if (!person.name || !person.number) {
     response.status(400).send("Error : Name or Number must not be empty")
   }
-  if(data.some(n=>n.name===person.name))
-  {
+  if (data.some(n => n.name === person.name)) {
     response.status(409).send("Error : Name already exist on server")
   }
   const newdata = data.concat(person)
